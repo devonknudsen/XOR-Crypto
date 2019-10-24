@@ -7,20 +7,28 @@ import sys
 def Xor(msg, key):
     cipher = ""
     if DEBUG:
-        print(len(key))
-        print(len(msg))
+        print("key length: {}".format(len(key)))
+        print("msg length: {}".format(len(msg)))
         print("---")
         print("KEY: {}".format(key))
         print("MSG: {}".format(msg))
         print("---")
 
+    # x allows repeat of key
+    x = 0
     for i in range(0,len(msg)):
+
+        #print(x)
+        if x == len(key):
+            x = 0
+
         msgint = ord(msg[i])
-        keyint = ord(key[i])
+        keyint = ord(key[x])
+        
 
         if DEBUG:
             print("msg char: \t{}".format(msg[i]))
-            print("key char: \t{}".format(key[i]))
+            print("key char: \t{}".format(key[x]))
             print("---")
             print("msg int: \t{}".format(msgint))
             print("key int: \t{}".format(keyint))
@@ -43,12 +51,15 @@ def Xor(msg, key):
             print("text int: \t{}".format(num))
             print("text char: \t{}".format(chary))
             print("-"*46)
+
+        x += 1
         cipher += chary
     return cipher
 
 # main
 DEBUG = False
 msg = sys.stdin.read().rstrip('\n')
-key = [line.rstrip('\n') for line in open('key')]
-key = key[0]
+key = [line.rstrip('\n') for line in open('key2')]
+key = ''.join(key)
+
 print(Xor(msg,key))
