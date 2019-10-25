@@ -1,15 +1,17 @@
 # Persians: Sydney Anderson, Tram Doan, Devon Knudsen, Zackary Phillips, Promyse Ward, James Wilson
 # GitHub Repo URL: https://github.com/devonknudsen/XOR-Crypto/edit/master/xor.py
-# Written in Python 2.7
+# Written in Python 3.5.2
 
 # take a message (either plaintext or ciphertext)
 # takes a key (same size as message)
 # each bit of message is xor with each bit of key, one at a time
 
-import sys
+from sys import stdin, stdout
 
+# takes in key and msg, xors them, 
+# and prints out characters to stdout
 def Xor(msg, key):
-    cipher = ""
+
     if DEBUG:
         print("key length: {}".format(len(key)))
         print("msg length: {}".format(len(msg)))
@@ -18,52 +20,38 @@ def Xor(msg, key):
         print("MSG: {}".format(msg))
         print("---")
 
-    # x allows repeat of key
-    x = 0
+    # xor each byte of msg with key
     for i in range(0,len(msg)):
 
-        #print(x)
-        if x == len(key):
-            x = 0
+        # xor the bytes to recieve the integer value
+        # i%len(key) should handle if len(key) < len(msg)
+        intV = (msg[i] ^ key[i%len(key)])
 
-        msgint = ord(msg[i])
-        keyint = ord(key[x])
-        
+        # encode the character to bytes
+        byte = bytes(chr(intV), "iso-8859-1")
+
+        # write the byte to stdout
+        stdout.buffer.write(byte)
 
         if DEBUG:
-            print("msg char: \t{}".format(msg[i]))
-            print("key char: \t{}".format(key[x]))
+            print("-"*23)
+            print("msg int: \t{}".format(msg[i%len(key)]))
+            print("key int: \t{}".format(key[i]))
             print("---")
-            print("msg int: \t{}".format(msgint))
-            print("key int: \t{}".format(keyint))
-            print("----")
+            print("xor int: \t{}".format(intV))
+            print("xor byte char:\t{}".format(byte))
 
-        msgbin = bin(msgint)
-        keybin = bin(keyint)
-
-        if DEBUG:
-            print("msg bin: \t{}".format(msgbin))
-            print("key bin: \t{}".format(keybin))
-            print("---")
-
-        num = int(msgbin,2) ^ int(keybin,2)
-        binary = (bin(num)[2:].zfill(len(msgbin)))
-        chary = chr(num)
-
-        if DEBUG:
-            print("text bin: \t{}".format(binary))
-            print("text int: \t{}".format(num))
-            print("text char: \t{}".format(chary))
-            print("-"*46)
-
-        x += 1
-        cipher += chary
-    return cipher
-
-# main
+### MAIN CODE ###
 DEBUG = False
-msg = sys.stdin.read().rstrip('\n')
-key = [line.rstrip('\n') for line in open('key2')]
-key = ''.join(key)
 
-print(Xor(msg,key))
+# open key file and read in binary mode
+key = open('key2', "rb")
+
+# remove new lines from byte string
+key = key.read().rstrip(bytes("\n", "ascii"))
+
+# read from stdin and remove new lines from byte string
+msg = stdin.buffer.read().rstrip(bytes("\n", "ascii"))
+
+# xor key and msg
+Xor(msg,key)
