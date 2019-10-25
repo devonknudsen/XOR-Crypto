@@ -3,13 +3,13 @@
 # Written in Python 3.5.2
 
 # take a message (either plaintext or ciphertext)
-# takes a key (same size as message)
+# take a key (same size as message)
 # each bit of message is xor with each bit of key, one at a time
 
 from sys import stdin, stdout
 
 # takes in key and msg, xors them, 
-# and prints out characters to stdout
+# and prints characters to stdout
 def Xor(msg, key):
 
     if DEBUG:
@@ -27,7 +27,7 @@ def Xor(msg, key):
         # i%len(key) should handle if len(key) < len(msg)
         intV = (msg[i] ^ key[i%len(key)])
 
-        # encode the character to bytes
+        # encode the integer to bytes using iso
         byte = bytes(chr(intV), "iso-8859-1")
 
         # write the byte to stdout
@@ -45,7 +45,7 @@ def Xor(msg, key):
 DEBUG = False
 
 # open key file and read in binary mode
-key = open('key2', "rb")
+key = open('key', "rb")
 
 # remove new lines from byte string
 key = key.read().rstrip(bytes("\n", "ascii"))
