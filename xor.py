@@ -1,3 +1,7 @@
+# Persians: Sydney Anderson, Tram Doan, Devon Knudsen, Zackary Phillips, Promyse Ward, James Wilson
+# GitHub Repo URL: https://github.com/devonknudsen/XOR-Crypto/edit/master/xor.py
+# Written in Python 2.7
+
 # take a message (either plaintext or ciphertext)
 # takes a key (same size as message)
 # each bit of message is xor with each bit of key, one at a time
